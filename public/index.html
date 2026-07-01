@@ -16,8 +16,8 @@
             <button onclick="submitInfo()" class="bg-dark fw-bolder" style="width: 100%; height: auto; border: none; border-radius: 3px; color: white;" id="btn">Submit</button>
             <div style="font-size: 13px; margin-top: 10px;display: flex; gap: 10px;"> 
 
-              <button onclick="signIn()"  class="bg-white fw-bolder text-black " style="width: 50%; height: auto; border: 1px solid gray; border-radius: 3px; color: white;">Google sign in</button>
-              <button onclick="signGit()" class="bg-white fw-bolder text-black " style="width: 50%; height: auto; border: 1px solid gray; border-radius: 3px; color: white;">Git sign in</button>
+              <button onclick="signIn()"  class="bg-white fw-bolder text-black " style="width: 50%; height: auto; border: 1px solid gray; border-radius: 3px; color: white;">Sign up with Google</button>
+              <button onclick="signGit()" class="bg-white fw-bolder text-black " style="width: 50%; height: auto; border: 1px solid gray; border-radius: 3px; color: white;">Sign up with GitHub</button>
 
             </div>
 
@@ -92,18 +92,32 @@ const submitInfo = () => {
   // console.log('hello');
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
+  if(email.trim() == '' || password.trim() == '') {
+    alert('filling all inputs')
+  } else {
+    const userObj = { email, password }
+    // For Sign Up
+      createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential)=>{
+        const user = userCredential.user
+        console.log(user);
+        
+      })
+      .catch((error)=>{
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        if(errorCode == 'auth/ivalid-email'){
+          alert('Enter a valid email address')
+        }else(
+          alert('You have successfully signed up')
+        )
+        
+      });
 
-// For Sign Up
-  createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential)=>{
-    const user = userCredential.user
-  })
-  .catch((error)=>{
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(errorMessage);
-    
-  });
+
+  }
+
   
   // For Sign In
   // signInWithEmailAndPassword(auth, email, password)
