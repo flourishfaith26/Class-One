@@ -31,7 +31,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
     // TODO: Add SDKs for Firebase products that you want to use
     // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -40,6 +40,7 @@
     const firebaseConfig = {
         apiKey: "AIzaSyCNPggmNxWUBHTGAmpaEhjTkoPls_njP8s",
         authDomain: "class-one-a358e.firebaseapp.com",
+        databaseURL: "https://class-one-a358e-default-rtdb.firebaseio.com",
         projectId: "class-one-a358e",
         storageBucket: "class-one-a358e.firebasestorage.app",
         messagingSenderId: "441498724169",
@@ -62,11 +63,11 @@
             console.log(user);
             userName = user.displayName
             email = user.email
-            show.innerHTML = `
-          <h4>Welcome ${userName}<h/4>
-          <h4>Your email is ${email}<h/4>
-          
-          `
+            //     show.innerHTML = `
+            //   <h4>Welcome ${userName}<h/4>
+            //   <h4>Your email is ${email}<h/4>
+
+            //`
         } else {
             setTimeout(() => {
                 windows.location.href = 'index.html'
@@ -82,18 +83,25 @@
         if (message == '') {
             alert('input is empty')
         } else {
-            // console.log(message);
             // const db = getDatabase();
-            const msgref = ref(db, 'message')
+            const msgref = ref(db, 'messages/${}')
             set(msgref, {
-                username: name,
-                email: email,
-                profile_picture: imageUrl
+                message,
+                time: new Date().toLocaleTimeString()
+
             });
+            console.log(message);
         }
 
     }
     window.send = send
+
+    const reference = ref(db, 'messages')
+    onValue(reference, (snapshot) => {
+        const data = snapshot.val();
+        console.log(data);
+        
+    });
 
 </script>
 
