@@ -84,7 +84,7 @@
             alert('input is empty')
         } else {
             // const db = getDatabase();
-            const msgref = ref(db, 'messages/${}')
+            const msgref = ref(db, 'messages/${index}')
             set(msgref, {
                 message,
                 time: new Date().toLocaleTimeString()
