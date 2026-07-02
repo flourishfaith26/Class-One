@@ -82,9 +82,10 @@
         if (message == '') {
             alert('input is empty')
         } else {
-            console.log(message);
-            const db = getDatabase();
-            set(ref(db, 'users/' + userId), {
+            // console.log(message);
+            // const db = getDatabase();
+            const msgref = ref(db, 'message')
+            set(msgref, {
                 username: name,
                 email: email,
                 profile_picture: imageUrl
